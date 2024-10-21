@@ -1,0 +1,35 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% comment %} <link rel="stylesheet" href="{% static 'style.css' %}"> {% endcomment %}
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl mt-10">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Rule List</h1>
+        
+        <a href="{% url 'rule_create' %}" 
+           class="block text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mb-4">
+            Create New Rule
+        </a>
+        
+        <ul class="space-y-4">
+            {% for rule in rules %}
+            <li class="flex justify-between items-center p-4 border-b border-gray-200">
+                <span class="text-lg font-medium text-gray-800">{{ rule.rule_name }}</span>
+                <a href="{% url 'rule_evaluate' rule.id %}" 
+                   class="text-indigo-600 hover:text-indigo-800 focus:outline-none">
+                    Evaluate
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

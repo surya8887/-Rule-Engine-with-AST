@@ -1,0 +1,60 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate Rule: {{ rule.rule_name }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% tailwind_css %}
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Evaluate Rule: {{ rule.rule_name }}</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Age:</label>
+                <input type="number" name="age" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                       placeholder="Enter your age">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Department:</label>
+                <input type="text" name="department" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                       placeholder="Enter your department">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Salary:</label>
+                <input type="number" name="salary" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                       placeholder="Enter your salary">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Experience:</label>
+                <input type="number" name="experience" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                       placeholder="Enter your experience in years">
+            </div>
+
+            <button type="submit" 
+                    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-4">
+                Evaluate
+            </button>
+        </form>
+
+        {% if result is not None %}
+            <p class="mt-4 text-center text-lg font-medium text-gray-700">
+                Result: <span class="font-bold text-indigo-600">{{ result }}</span>
+            </p>
+        {% endif %}
+    </div>
+</body>
+</html>
