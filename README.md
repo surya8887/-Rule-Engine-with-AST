@@ -44,7 +44,7 @@ rule_engin_first/
 
 1. Clone the Repository:
 
-    git clone https://github.com/yourusername/rule_engine.git
+    git clone https://github.com/surya8887/-Rule-Engine-with-AST.git
     cd rule_engin_first
 
 2. Set Up a Virtual Environment:
