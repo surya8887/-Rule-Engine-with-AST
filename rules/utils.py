@@ -1,5 +1,9 @@
 import re
 
+''' Create new data type using Node and use  it to create a tree structure 
+re (regular expression) module of python for checking  the pattern of the string and  return a match object if the string matches the pattern, otherwise return None '''
+
+
 class Node:
     def __init__(self, node_type, left=None, right=None, value=None):
         self.type = node_type  # "operator" or "operand"
