@@ -13,11 +13,11 @@ class Node:
         return f"Operator(type={self.type}, left={self.left}, right={self.right})"
 
 def parse_condition(condition):
-    """Parses a condition like 'age > 30' into a Node."""
+    
     match = re.match(r'(\w+)\s*([<>=!]+)\s*(.+)', condition.strip())
     if match:
         attribute, operator, threshold = match.groups()
-        # Clean threshold from quotes if it's a string
+        
         threshold = threshold.strip("'\"") if isinstance(threshold, str) else threshold
         return Node("operand", value={"attribute": attribute, "operator": operator, "threshold": threshold})
     raise ValueError(f"Invalid condition: {condition}")
@@ -25,11 +25,11 @@ def parse_condition(condition):
 def create_rule(rule_string):
     """Creates an AST from a rule string."""
     try:
-        # Normalize the rule string by replacing AND/OR and removing extra spaces
+       
         rule_string = rule_string.replace(" AND ", " and ").replace(" OR ", " or ")
         rule_string = re.sub(r'\s+', ' ', rule_string).strip()
 
-        # Use regex to find conditions and operators, accounting for parentheses
+       
         conditions = []
         operators = []
         tokens = re.split(r'(\band\b|\bor\b|\(|\))', rule_string)
@@ -40,16 +40,16 @@ def create_rule(rule_string):
             if not token:
                 continue
             if token == '(':
-                # Start a new group
+               
                 current_conditions.append([])
             elif token == ')':
-                # End a current group
+               
                 if current_conditions:
                     conditions.append(current_conditions.pop())
             elif token in ("and", "or"):
                 operators.append(token)
             else:
-                # Parse the condition
+            
                 condition_node = parse_condition(token)
                 if current_conditions:
                     current_conditions[-1].append(condition_node)
@@ -66,12 +66,12 @@ def create_rule(rule_string):
             else:
                 root = conditions[i][0]
 
-        return root  # Return the root of the AST
+        return root  
     except Exception as e:
         raise ValueError(f"Invalid rule: {e}")
 
 def evaluate_rule(ast_node, data):
-    """Evaluates an AST node against the user data."""
+   
     if ast_node.type == "operand":
         # Extract the comparison logic
         operand_value = data.get(ast_node.value["attribute"])
@@ -96,12 +96,14 @@ def evaluate_rule(ast_node, data):
             return left_result or right_result
         raise ValueError(f"Invalid operator in AST: {ast_node.value}")
 
-# # Example Usage:
-# rule_string = "age > 30 AND department = 'Sales'"
-# ast_root = create_rule(rule_string)
-# print(ast_root)  # Display the AST
 
-# # Evaluate the rule against user data
-# user_data = {"age": 35, "department": "Sales"}
-# result = evaluate_rule(ast_root, user_data)
-# print(f"Evaluation Result: {result}")  # Should print True
+# if __name__ == "__main__":
+
+    # rule_string = "age > 30 AND department = 'Sales'"
+    # ast_root = create_rule(rule_string)
+    # print(ast_root)  # Display the AST
+
+    # # Evaluate the rule against user data
+    # user_data = {"age": 35, "department": "Sales"}
+    # result = evaluate_rule(ast_root, user_data)
+    # print(f"Evaluation Result: {result}")  # Should print True
